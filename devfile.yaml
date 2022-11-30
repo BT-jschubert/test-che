@@ -38,7 +38,7 @@ components:
           value: '5858'
    - name: odoo
     container:
-      image: .
+      image: odoo-image:latest
       mountSources: true
       endpoints:
         - name: http-odoo
@@ -49,6 +49,17 @@ components:
       env:
         - name: DEBUG_PORT
           value: '5858'
+          name: outerloop-build
+    - name: odoo
+      image:
+        imageName: odoo-image:latest
+        autoBuild: true
+        dockerfile:
+          uri: Dockerfile
+          args:
+            - 'MY_ENV=/home/path'
+          buildContext: .
+          rootRequired: false
 commands:
   - id: pip-install-requirements
     exec:
