@@ -36,6 +36,19 @@ components:
       env:
         - name: DEBUG_PORT
           value: '5858'
+   - name: odoo
+    container:
+      image: .
+      mountSources: true
+      endpoints:
+        - name: http-odoo
+          targetPort: 8069
+        - exposure: none
+          name: debug
+          targetPort: 5858
+      env:
+        - name: DEBUG_PORT
+          value: '5858'
 commands:
   - id: pip-install-requirements
     exec:
@@ -45,11 +58,11 @@ commands:
         kind: build
         isDefault: true
       component: py
-  - id: run-app
+  - id: run-odoo
     exec:
-      commandLine: 'python app.py'
+      commandLine: 'odoo-bin'
       workingDir: ${PROJECT_SOURCE}
-      component: py
+      component: odoo
       group:
         kind: run
         isDefault: true
