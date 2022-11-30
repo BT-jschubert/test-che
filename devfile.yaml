@@ -1,9 +1,9 @@
+---
 schemaVersion: 2.2.0
 metadata:
   name: thelocals
   displayName: theLocals
-  description:
-    'Test descirption'
+  description: Test descirption
   icon: https://raw.githubusercontent.com/devfile-samples/devfile-stack-icons/main/python.svg
   projectType: Python
   provider: Red Hat
@@ -15,9 +15,10 @@ metadata:
   version: 2.1.0
 starterProjects:
   - name: flask-example
-    description:
-      'Flask is a web framework, it’s a Python module that lets you develop web applications easily.
-      It’s has a small and easy-to-extend core: it’s a microframework that doesn’t include an ORM (Object Relational Manager) or such features.'
+    description: "Flask is a web framework, it’s a Python module that lets you
+      develop web applications easily. It’s has a small and easy-to-extend core:
+      it’s a microframework that doesn’t include an ORM (Object Relational
+      Manager) or such features."
     git:
       remotes:
         origin: https://github.com/devfile-samples/python-ex
@@ -25,7 +26,10 @@ components:
   - name: py
     container:
       image: registry.access.redhat.com/ubi9/python-39:latest
-      args: ['tail', '-f', '/dev/null']
+      args:
+        - tail
+        - -f
+        - /dev/null
       mountSources: true
       endpoints:
         - name: http-python
@@ -35,8 +39,8 @@ components:
           targetPort: 5858
       env:
         - name: DEBUG_PORT
-          value: '5858'
-   - name: odoo
+          value: "5858"
+  - name: odoo
     container:
       image: odoo-image:latest
       mountSources: true
@@ -48,18 +52,17 @@ components:
           targetPort: 5858
       env:
         - name: DEBUG_PORT
-          value: '5858'
-          name: outerloop-build
-    - name: odoo
-      image:
-        imageName: odoo-image:latest
-        autoBuild: true
-        dockerfile:
-          uri: Dockerfile
-          args:
-            - 'MY_ENV=/home/path'
-          buildContext: .
-          rootRequired: false
+          value: "5858"
+  - name: odoo-image
+    image:
+      imageName: odoo-image:latest
+      autoBuild: true
+      dockerfile:
+        uri: Dockerfile
+        args:
+          - MY_ENV=/home/path
+        buildContext: .
+        rootRequired: false
 commands:
   - id: pip-install-requirements
     exec:
@@ -71,7 +74,7 @@ commands:
       component: py
   - id: run-odoo
     exec:
-      commandLine: 'odoo-bin'
+      commandLine: odoo-bin
       workingDir: ${PROJECT_SOURCE}
       component: odoo
       group:
@@ -79,7 +82,8 @@ commands:
         isDefault: true
   - id: debug-py
     exec:
-      commandLine: 'pip install debugpy && python -m debugpy --listen 0.0.0.0:${DEBUG_PORT} app.py'
+      commandLine: pip install debugpy && python -m debugpy --listen
+        0.0.0.0:${DEBUG_PORT} app.py
       workingDir: ${PROJECT_SOURCE}
       component: py
       group:
